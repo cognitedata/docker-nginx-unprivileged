@@ -12,6 +12,7 @@ void pod(body) {
   }
 }
 
+
 pod {
   stage("Checkout from GitHub") {
     checkout(scm)
