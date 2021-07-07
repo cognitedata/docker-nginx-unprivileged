@@ -19,7 +19,7 @@ pod {
   }
 
   stage("Build docker image") {
-    buildInfo = dockerUtils.build()
+    buildInfo = dockerUtils.build(dockerBuildDirectory = './stable/alpine')
   }
 
   stage("Dockle scan") {
