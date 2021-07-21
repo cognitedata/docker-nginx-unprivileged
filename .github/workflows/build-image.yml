@@ -27,8 +27,7 @@ jobs:
       - id: get_version
         name: "Get version from version.txt"
         run: |
-          $version=3.14
-          echo $version
+          $version = cat version.txt
           echo "::set-output name=version::$version"
 
       - name: "Build and push Docker image"
