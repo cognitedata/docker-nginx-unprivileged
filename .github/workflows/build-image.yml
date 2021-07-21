@@ -10,9 +10,6 @@ jobs:
   publish_to_dockerhub:
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout repository"
-        uses: actions/checkout@v2
-
       - name: "Set up Docker Buildx"
         uses: docker/setup-buildx-action@v1
         with:
@@ -27,7 +24,7 @@ jobs:
       - id: get_version
         name: "Get version from version.txt"
         run: |
-          $(cat version.txt) >> $version
+          $version=3.14
           echo $version
           echo "::set-output name=version::$version"
 
