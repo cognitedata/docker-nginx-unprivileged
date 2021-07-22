@@ -3,8 +3,8 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-ARG IMAGE=alpine:3.13
-FROM $IMAGE
+ARG VERSION=3.14
+FROM alpine:$VERSION
 
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
