@@ -34,6 +34,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./stable/alpine
-          load: true
+          push: true
           tags: cognite/docker-nginx-unprivileged:${{ steps.get_version.outputs.version }}
           build-args: VERSION=${{ steps.get_version.outputs.version }}
