@@ -17,6 +17,7 @@ declare -A nginx=(
 )
 
 # Current njs versions
+
 declare -A njs=(
     [mainline]='0.7.0'
     [stable]='0.7.0'
