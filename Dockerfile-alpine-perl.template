@@ -1,7 +1,5 @@
-ARG IMAGE=nginxinc/nginx-unprivileged:%%NGINX_VERSION%%-alpine-slim
+ARG IMAGE=nginxinc/nginx-unprivileged:%%NGINX_VERSION%%-alpine
 FROM $IMAGE
-
-ENV NJS_VERSION   %%NJS_VERSION%%
 
 ARG UID=101
 ARG GID=101
@@ -44,10 +42,7 @@ RUN set -x \
                 pcre2-dev \
                 zlib-dev \
                 linux-headers \
-                libxslt-dev \
-                gd-dev \
-                geoip-dev \
-                libedit-dev \
+                perl-dev \
                 bash \
                 alpine-sdk \
                 findutils \
@@ -79,8 +74,6 @@ RUN set -x \
 # if we have leftovers from building, let's purge them (including extra, unnecessary build deps)
     && if [ -n "$tempDir" ]; then rm -rf "$tempDir"; fi \
     && if [ -n "/etc/apk/keys/abuild-key.rsa.pub" ]; then rm -f /etc/apk/keys/abuild-key.rsa.pub; fi \
-    && if [ -n "/etc/apk/keys/nginx_signing.rsa.pub" ]; then rm -f /etc/apk/keys/nginx_signing.rsa.pub; fi \
-# Bring in curl and ca-certificates to make registering on DNS SD easier
-    && apk add --no-cache curl ca-certificates
+    && if [ -n "/etc/apk/keys/nginx_signing.rsa.pub" ]; then rm -f /etc/apk/keys/nginx_signing.rsa.pub; fi
 
 USER $UID
