@@ -28,6 +28,7 @@ jobs:
         run: |
           version=$(cat version.txt)
           echo "::set-output name=version::$version"
+
       - name: "Build and push Docker image"
         uses: docker/build-push-action@v2
         with:
