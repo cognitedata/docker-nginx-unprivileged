@@ -3,10 +3,10 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-ARG IMAGE=nginxinc/nginx-unprivileged:%%NGINX_VERSION%%-alpine-slim
+ARG IMAGE=nginxinc/nginx-unprivileged:1.22.1-alpine-slim
 FROM $IMAGE
 
-ENV NJS_VERSION   %%NJS_VERSION%%
+ENV NJS_VERSION   0.7.9
 
 ARG UID=101
 ARG GID=101
@@ -15,7 +15,12 @@ USER root
 
 RUN set -x \
     && apkArch="$(cat /etc/apk/arch)" \
-    && nginxPackages="%%PACKAGES%%
+    && nginxPackages=" \
+        nginx=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-xslt=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-geoip=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-image-filter=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-njs=${NGINX_VERSION}.${NJS_VERSION}-r${PKG_RELEASE} \
     " \
 # install prerequisites for public key and pkg-oss checks
     && apk add --no-cache --virtual .checksum-deps \
@@ -33,7 +38,7 @@ RUN set -x \
                 echo "key verification failed!"; \
                 exit 1; \
             fi \
-            && apk add -X "%%PACKAGEREPO%%v$(egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release)/main" --no-cache $nginxPackages \
+            && apk add -X "https://nginx.org/packages/alpine/v$(egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release)/main" --no-cache $nginxPackages \
             ;; \
         *) \
 # we're on an architecture upstream doesn't officially build for
@@ -59,18 +64,18 @@ RUN set -x \
             && su nobody -s /bin/sh -c " \
                 export HOME=${tempDir} \
                 && cd ${tempDir} \
-                && curl -f -O https://hg.nginx.org/pkg-oss/archive/%%REVISION%%.tar.gz \
-                && PKGOSSCHECKSUM=\"%%PKGOSSCHECKSUM%% *%%REVISION%%.tar.gz\" \
-                && if [ \"\$(openssl sha512 -r %%REVISION%%.tar.gz)\" = \"\$PKGOSSCHECKSUM\" ]; then \
+                && curl -f -O https://hg.nginx.org/pkg-oss/archive/757.tar.gz \
+                && PKGOSSCHECKSUM=\"32a039e8d3cc54404a8ad4a31981e76a49632f1ebec2f45bb309689d6ba2f82e3e8aea8abf582b49931636ea53271b48a7e2f2ef8ebe35b167b3fe18b8b99852 *757.tar.gz\" \
+                && if [ \"\$(openssl sha512 -r 757.tar.gz)\" = \"\$PKGOSSCHECKSUM\" ]; then \
                     echo \"pkg-oss tarball checksum verification succeeded!\"; \
                 else \
                     echo \"pkg-oss tarball checksum verification failed!\"; \
                     exit 1; \
                 fi \
-                && tar xzvf %%REVISION%%.tar.gz \
-                && cd pkg-oss-%%REVISION%% \
+                && tar xzvf 757.tar.gz \
+                && cd pkg-oss-757 \
                 && cd alpine \
-                && make %%BUILDTARGET%% \
+                && make module-geoip module-image-filter module-njs module-xslt \
                 && apk index -o ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz ${tempDir}/packages/alpine/${apkArch}/*.apk \
                 && abuild-sign -k ${tempDir}/.abuild/abuild-key.rsa ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz \
                 " \
