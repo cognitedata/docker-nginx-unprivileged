@@ -13,7 +13,7 @@ Check out the [docs](https://hub.docker.com/_/nginx) for the upstream Docker NGI
 
 **Note:** Issues related to security vulnerabilities will be promptly closed unless they are accompanied by a solid reasoning as to why the vulnerability poses a real security threat to this image. Check out the [`SECURITY`](https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/.github/SECURITY.md) doc for more details.
 
-## Supported Image Registries and Platforms
+## Supported Image Registries and Platforms 
 
 ### Image Registries
 
