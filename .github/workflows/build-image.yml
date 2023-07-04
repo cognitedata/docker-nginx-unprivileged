@@ -1,9 +1,7 @@
 name: Build and publish to Dockerhub
 
 on:
-  push:
-    branches:
-      - 'main'
+  pull_request:
 
 jobs:
   publish_to_dockerhub:
