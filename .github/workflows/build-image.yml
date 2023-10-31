@@ -8,6 +8,7 @@ on:
 jobs:
   publish_to_dockerhub:
     runs-on: ubuntu-latest
+    environment: CD
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v2

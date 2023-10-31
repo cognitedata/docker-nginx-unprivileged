@@ -8,6 +8,7 @@ jobs:
   version:
     name: Fetch NGINX stable version
     runs-on: ubuntu-22.04
+    environment: CD
     outputs:
       major: ${{ steps.nginx_version.outputs.major }}
       minor: ${{ steps.nginx_version.outputs.minor }}
@@ -32,6 +33,7 @@ jobs:
   core:
     name: Build Debian NGINX stable Docker image
     runs-on: ubuntu-22.04
+    environment: CD
     strategy:
       fail-fast: false
     needs: version
@@ -125,6 +127,7 @@ jobs:
   perl:
     name: Build Debian NGINX stable perl Docker image
     runs-on: ubuntu-22.04
+    environment: CD
     strategy:
       fail-fast: false
     needs: [version, core]

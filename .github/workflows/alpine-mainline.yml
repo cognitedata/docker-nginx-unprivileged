@@ -32,6 +32,7 @@ jobs:
   core:
     name: Build Alpine NGINX mainline Docker image
     runs-on: ubuntu-22.04
+    environment: CD
     strategy:
       fail-fast: false
     needs: [version, slim]
@@ -133,6 +134,7 @@ jobs:
   perl:
     name: Build Alpine NGINX mainline perl Docker image
     runs-on: ubuntu-22.04
+    environment: CD
     strategy:
       fail-fast: false
     needs: [version, core]
@@ -234,6 +236,7 @@ jobs:
   slim:
     name: Build Alpine NGINX mainline slim Docker image
     runs-on: ubuntu-22.04
+    environment: CD
     strategy:
       fail-fast: false
     needs: version
